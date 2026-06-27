@@ -24,6 +24,51 @@
     importHotmart();
   </script>
 
+  <script>
+    // ── COUNTDOWN TIMER (expira 30 Jun 2026 23:59) ──
+    function startCountdown() {
+      var deadline = new Date('2026-06-30T23:59:00');
+      function tick() {
+        var now = new Date();
+        var diff = deadline - now;
+        if (diff <= 0) {
+          document.querySelectorAll('.cd-wrap').forEach(function(el){ el.style.display='none'; });
+          return;
+        }
+        var d = Math.floor(diff / 86400000);
+        var h = Math.floor((diff % 86400000) / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        document.querySelectorAll('.cd-d').forEach(function(el){ el.textContent = String(d).padStart(2,'0'); });
+        document.querySelectorAll('.cd-h').forEach(function(el){ el.textContent = String(h).padStart(2,'0'); });
+        document.querySelectorAll('.cd-m').forEach(function(el){ el.textContent = String(m).padStart(2,'0'); });
+        document.querySelectorAll('.cd-s').forEach(function(el){ el.textContent = String(s).padStart(2,'0'); });
+      }
+      tick();
+      setInterval(tick, 1000);
+    }
+    document.addEventListener('DOMContentLoaded', startCountdown);
+
+    // ── LEAD FORM — captura email e envia para WhatsApp ──
+    // (para upgrade a Formspree: mudar action para "https://formspree.io/f/SEU_ID")
+    function handleLeadForm(e) {
+      e.preventDefault();
+      var nome  = document.getElementById('lead-nome').value.trim();
+      var email = document.getElementById('lead-email').value.trim();
+      if (!nome || !email) return;
+
+      // Mostra modal de sucesso
+      document.getElementById('lead-success').style.display = 'block';
+      document.getElementById('lead-form-wrap').style.display = 'none';
+
+      // Abre WhatsApp com mensagem pré-preenchida (Pedro envia ebook manualmente / ManyChat apanha)
+      var msg = encodeURIComponent('Olá! Quero receber as 30 Papinhas grátis 🍲\nNome: ' + nome + '\nEmail: ' + email);
+      setTimeout(function(){
+        window.open('https://wa.me/351937127509?text=' + msg, '_blank');
+      }, 1200);
+    }
+  </script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -373,6 +418,82 @@
     }
     footer a { color: #94a3b8; }
 
+    /* ───── COUNTDOWN ───── */
+    .cd-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .cd-box {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 10px;
+      padding: 10px 14px;
+      text-align: center;
+      min-width: 62px;
+    }
+    .cd-box .cd-num {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+      color: #fff;
+    }
+    .cd-box .cd-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #93c5fd;
+      margin-top: 4px;
+    }
+    .cd-sep { font-size: 24px; font-weight: 900; color: #60a5fa; margin-bottom: 16px; }
+    .cd-hero-label {
+      font-size: 12px;
+      color: #fbbf24;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    /* ───── LEAD SUCCESS ───── */
+    #lead-success {
+      display: none;
+      background: rgba(255,255,255,0.1);
+      border: 2px solid #86efac;
+      border-radius: 16px;
+      padding: 32px 24px;
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    #lead-success .success-icon { font-size: 48px; margin-bottom: 12px; }
+    #lead-success h3 { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    #lead-success p { color: #cbd5e1; font-size: 15px; }
+
+    /* ───── WHATSAPP FLOAT ───── */
+    .wa-float {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: #25d366;
+      color: #fff;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+      text-decoration: none;
+      z-index: 998;
+      transition: transform 0.2s;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+
     /* ───── STICKY CTA (mobile) ───── */
     .sticky-cta {
       position: fixed;
@@ -394,7 +515,11 @@
 
 <!-- URGENCY BAR -->
 <div class="urgency-bar">
-  ⚡ Lançamento — Preço especial por tempo limitado. Não perca.
+  ⚡ Preço de lançamento termina em: &nbsp;
+  <span class="cd-d">--</span>d &nbsp;
+  <span class="cd-h">--</span>h &nbsp;
+  <span class="cd-m">--</span>m &nbsp;
+  <span class="cd-s">--</span>s
 </div>
 
 <!-- HERO -->
@@ -403,7 +528,7 @@
     <span class="label">Guia para Pais</span>
     <h1>O guia que nenhum médico<br>te deu sobre <span>autismo</span></h1>
     <p class="subtitle">47 estratégias práticas para alimentação, comunicação e rotinas — escritas por quem vive isso todos os dias.</p>
-    <a href="https://pay.hotmart.com/H106512679A?checkoutMode=2" onclick="return false;" class="btn-hero hotmart-fb hotmart__button-checkout">
+    <a href="https://pay.hotmart.com/H106512679A?checkoutMode=2" class="btn-hero hotmart-fb hotmart__button-checkout">
       QUERO O GUIA AGORA →
     </a>
     <div class="price-hint">
@@ -412,6 +537,18 @@
     <div class="hero-social-proof">
       <span class="stars">★★★★★</span>
       <span>+230 pais já usam este guia</span>
+    </div>
+
+    <!-- COUNTDOWN HERO -->
+    <div class="cd-wrap">
+      <div class="cd-hero-label" style="width:100%; text-align:center; color:#fbbf24;">⏳ Preço especial termina em:</div>
+      <div class="cd-box"><div class="cd-num cd-d">--</div><div class="cd-label">Dias</div></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-box"><div class="cd-num cd-h">--</div><div class="cd-label">Horas</div></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-box"><div class="cd-num cd-m">--</div><div class="cd-label">Min</div></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-box"><div class="cd-num cd-s">--</div><div class="cd-label">Seg</div></div>
     </div>
   </div>
 </section>
@@ -563,7 +700,7 @@
           <div class="new"><span>€</span>24<span>,99</span></div>
           <div class="note">Pagamento único. Acesso para sempre.</div>
         </div>
-        <a href="https://pay.hotmart.com/H106512679A?checkoutMode=2" onclick="return false;" class="btn-buy hotmart-fb hotmart__button-checkout">
+        <a href="https://pay.hotmart.com/H106512679A?checkoutMode=2" class="btn-buy hotmart-fb hotmart__button-checkout">
           QUERO ACESSO AGORA →
           <small>Hotmart · Pagamento 100% seguro</small>
         </a>
@@ -580,14 +717,25 @@
   <div class="container">
     <h2 class="section-title" style="color:#fff;">Ainda a pensar? Começa aqui — de graça.</h2>
     <p>Recebe as <strong>30 Papinhas & Receitas Adaptadas</strong> grátis no teu email. Sem compromisso, sem cartão de crédito.</p>
-    <form class="lead-form" action="https://pay.hotmart.com/H106512679A?checkoutMode=2" method="get" target="_blank">
-      <input type="text" name="nome" placeholder="O teu nome" required>
-      <input type="email" name="email" placeholder="O teu email" required>
-      <button type="submit" class="btn-lead">
-        QUERO AS RECEITAS GRÁTIS →
-      </button>
-    </form>
-    <div class="lead-note">🔒 Sem spam. Podes cancelar a qualquer momento.</div>
+
+    <div id="lead-form-wrap">
+      <form class="lead-form" onsubmit="handleLeadForm(event)">
+        <input id="lead-nome" type="text" name="nome" placeholder="O teu nome" required>
+        <input id="lead-email" type="email" name="email" placeholder="O teu email" required>
+        <button type="submit" class="btn-lead">
+          QUERO AS RECEITAS GRÁTIS →
+        </button>
+      </form>
+      <div class="lead-note">🔒 Sem spam. Podes cancelar a qualquer momento.</div>
+    </div>
+
+    <!-- Mensagem de sucesso (aparece após submissão) -->
+    <div id="lead-success">
+      <div class="success-icon">🎉</div>
+      <h3>Receita a caminho!</h3>
+      <p>Vais receber as 30 Papinhas no teu email em breve.<br><br>
+      Enquanto isso, abrimos o WhatsApp para te enviarmos o link de download. Clica em "Enviar" 👇</p>
+    </div>
   </div>
 </section>
 
@@ -629,7 +777,7 @@
     <p style="color: #94a3b8; max-width: 480px; margin: 0 auto 36px; font-size: 17px;">
       Há pais a transformar o dia a dia com estratégias que cabem neste guia. A questão é: quando é que começas?
     </p>
-    <a href="https://pay.hotmart.com/H106512679A?checkoutMode=2" onclick="return false;" class="btn-hero hotmart-fb hotmart__button-checkout">QUERO O GUIA — €24,99 →</a>
+    <a href="https://pay.hotmart.com/H106512679A?checkoutMode=2" class="btn-hero hotmart-fb hotmart__button-checkout">QUERO O GUIA — €24,99 →</a>
     <p style="margin-top: 16px; font-size: 13px; color: #64748b;">🛡️ Garantia de 7 dias · Acesso imediato</p>
   </div>
 </section>
@@ -640,7 +788,10 @@
 </footer>
 
 <!-- STICKY CTA (mobile) -->
-<a href="https://pay.hotmart.com/H106512679A?checkoutMode=2" onclick="return false;" class="sticky-cta hotmart-fb hotmart__button-checkout">🔥 QUERO O GUIA — €24,99</a>
+<a href="https://pay.hotmart.com/H106512679A?checkoutMode=2" class="sticky-cta hotmart-fb hotmart__button-checkout">🔥 QUERO O GUIA — €24,99</a>
+
+<!-- WHATSAPP FLOAT BUTTON -->
+<a href="https://wa.me/351937127509?text=Ol%C3%A1%21+Tenho+uma+d%C3%BAvida+sobre+o+Guia+Autismo+%F0%9F%91%8B" target="_blank" class="wa-float" title="Fala connosco no WhatsApp">💬</a>
 
 </body>
 </html>
