@@ -25,30 +25,6 @@
   </script>
 
   <script>
-    // ── COUNTDOWN TIMER (expira 30 Jun 2026 23:59) ──
-    function startCountdown() {
-      var deadline = new Date('2026-06-30T23:59:00');
-      function tick() {
-        var now = new Date();
-        var diff = deadline - now;
-        if (diff <= 0) {
-          document.querySelectorAll('.cd-wrap').forEach(function(el){ el.style.display='none'; });
-          return;
-        }
-        var d = Math.floor(diff / 86400000);
-        var h = Math.floor((diff % 86400000) / 3600000);
-        var m = Math.floor((diff % 3600000) / 60000);
-        var s = Math.floor((diff % 60000) / 1000);
-        document.querySelectorAll('.cd-d').forEach(function(el){ el.textContent = String(d).padStart(2,'0'); });
-        document.querySelectorAll('.cd-h').forEach(function(el){ el.textContent = String(h).padStart(2,'0'); });
-        document.querySelectorAll('.cd-m').forEach(function(el){ el.textContent = String(m).padStart(2,'0'); });
-        document.querySelectorAll('.cd-s').forEach(function(el){ el.textContent = String(s).padStart(2,'0'); });
-      }
-      tick();
-      setInterval(tick, 1000);
-    }
-    document.addEventListener('DOMContentLoaded', startCountdown);
-
     // ── LEAD FORM — captura email e envia para WhatsApp ──
     // (para upgrade a Formspree: mudar action para "https://formspree.io/f/SEU_ID")
     function handleLeadForm(e) {
@@ -90,17 +66,6 @@
       background: #fff;
       color: var(--dark);
       line-height: 1.6;
-    }
-
-    /* ───── URGENCY BAR ───── */
-    .urgency-bar {
-      background: var(--red);
-      color: #fff;
-      text-align: center;
-      padding: 10px 16px;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
     }
 
     /* ───── HERO ───── */
@@ -161,20 +126,8 @@
       font-size: 14px;
       color: #94a3b8;
     }
-    .hero .price-hint s { color: #64748b; }
     .hero .price-hint strong { color: #86efac; font-size: 16px; }
 
-    .hero-social-proof {
-      margin-top: 36px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      font-size: 13px;
-      color: #94a3b8;
-    }
-    .stars { color: #fbbf24; letter-spacing: 2px; }
 
     /* ───── SHARED SECTION ───── */
     section { padding: 64px 20px; }
@@ -279,20 +232,6 @@
     .bonus-box h3 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
     .bonus-box p { font-size: 15px; color: #78350f; }
 
-    /* ───── TESTIMONIALS ───── */
-    .testimonials { background: var(--light); }
-    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-    .testi-card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 24px 20px;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-    }
-    .testi-card .stars { font-size: 16px; margin-bottom: 12px; display: block; }
-    .testi-card p { font-size: 15px; line-height: 1.6; color: #374151; margin-bottom: 16px; }
-    .testi-card .author { font-size: 13px; font-weight: 700; color: var(--gray); }
-
     /* ───── PRICING ───── */
     .pricing { background: #fff; }
     .price-card {
@@ -329,7 +268,6 @@
       border-top: 2px solid var(--blue);
       text-align: center;
     }
-    .price-total .old { font-size: 16px; color: var(--gray); text-decoration: line-through; }
     .price-total .new { font-size: 52px; font-weight: 900; color: var(--dark); line-height: 1.1; }
     .price-total .new span { font-size: 24px; }
     .price-total .note { font-size: 13px; color: var(--gray); margin-top: 6px; }
@@ -418,46 +356,6 @@
     }
     footer a { color: #94a3b8; }
 
-    /* ───── COUNTDOWN ───── */
-    .cd-wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-    .cd-box {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 10px;
-      padding: 10px 14px;
-      text-align: center;
-      min-width: 62px;
-    }
-    .cd-box .cd-num {
-      font-size: 28px;
-      font-weight: 900;
-      line-height: 1;
-      color: #fff;
-    }
-    .cd-box .cd-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #93c5fd;
-      margin-top: 4px;
-    }
-    .cd-sep { font-size: 24px; font-weight: 900; color: #60a5fa; margin-bottom: 16px; }
-    .cd-hero-label {
-      font-size: 12px;
-      color: #fbbf24;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
     /* ───── LEAD SUCCESS ───── */
     #lead-success {
       display: none;
@@ -513,15 +411,6 @@
 </head>
 <body>
 
-<!-- URGENCY BAR -->
-<div class="urgency-bar">
-  ⚡ Preço de lançamento termina em: &nbsp;
-  <span class="cd-d">--</span>d &nbsp;
-  <span class="cd-h">--</span>h &nbsp;
-  <span class="cd-m">--</span>m &nbsp;
-  <span class="cd-s">--</span>s
-</div>
-
 <!-- HERO -->
 <section class="hero">
   <div class="container">
@@ -532,23 +421,7 @@
       QUERO O GUIA AGORA →
     </a>
     <div class="price-hint">
-      <s>€49,99</s> &nbsp;→&nbsp; <strong>€24,99 hoje</strong>
-    </div>
-    <div class="hero-social-proof">
-      <span class="stars">★★★★★</span>
-      <span>+230 pais já usam este guia</span>
-    </div>
-
-    <!-- COUNTDOWN HERO -->
-    <div class="cd-wrap">
-      <div class="cd-hero-label" style="width:100%; text-align:center; color:#fbbf24;">⏳ Preço especial termina em:</div>
-      <div class="cd-box"><div class="cd-num cd-d">--</div><div class="cd-label">Dias</div></div>
-      <span class="cd-sep">:</span>
-      <div class="cd-box"><div class="cd-num cd-h">--</div><div class="cd-label">Horas</div></div>
-      <span class="cd-sep">:</span>
-      <div class="cd-box"><div class="cd-num cd-m">--</div><div class="cd-label">Min</div></div>
-      <span class="cd-sep">:</span>
-      <div class="cd-box"><div class="cd-num cd-s">--</div><div class="cd-label">Seg</div></div>
+      <strong>€24,99</strong>
     </div>
   </div>
 </section>
@@ -638,32 +511,7 @@
     <div class="bonus-box">
       <span class="tag">🎁 Bónus incluído</span>
       <h3>30 Papinhas & Receitas Adaptadas</h3>
-      <p>Um receituário especialmente pensado para crianças com hipersensibilidade alimentar — texturas, sabores suaves e apresentação visual apelativa. Valor: €12,99. Incluído grátis.</p>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="testimonials">
-  <div class="container">
-    <h2 class="section-title">O que os pais estão a dizer</h2>
-    <p class="section-sub">Histórias reais de famílias como a tua.</p>
-    <div class="testi-grid">
-      <div class="testi-card">
-        <span class="stars">★★★★★</span>
-        <p>"O meu filho de 6 anos passou a aceitar 4 alimentos novos em 3 semanas. Não acreditava que fosse possível assim tão depressa."</p>
-        <span class="author">— Ana M., mãe do Tomás (6 anos)</span>
-      </div>
-      <div class="testi-card">
-        <span class="stars">★★★★★</span>
-        <p>"As rotinas visuais mudaram completamente as manhãs cá em casa. Deixámos de ter crises antes da escola."</p>
-        <span class="author">— Ricardo F., pai da Beatriz (8 anos)</span>
-      </div>
-      <div class="testi-card">
-        <span class="stars">★★★★★</span>
-        <p>"Finalmente sinto que tenho ferramentas. Não é magia mas é o mais perto disso que já encontrei."</p>
-        <span class="author">— Mariana S., mãe do Duarte (5 anos)</span>
-      </div>
+      <p>Um receituário especialmente pensado para crianças com hipersensibilidade alimentar — texturas, sabores suaves e apresentação visual apelativa. Incluído sem custo adicional.</p>
     </div>
   </div>
 </section>
@@ -681,22 +529,17 @@
       <div class="price-body">
         <div class="price-row">
           <span class="item-name">📘 Guia Autismo (PDF completo)</span>
-          <span class="item-price">€39,99</span>
         </div>
         <div class="price-row">
           <span class="item-name">🍲 30 Papinhas & Receitas Adaptadas</span>
-          <span class="item-price">€12,99</span>
         </div>
         <div class="price-row">
           <span class="item-name">📋 Fichas de Rotinas Visuais (imprimíveis)</span>
-          <span class="item-price">€9,99</span>
         </div>
         <div class="price-row">
-          <span class="item-name">✉️ Acesso a atualizações futuras</span>
-          <span class="item-price">incluído</span>
+          <span class="item-name">✉️ Acesso a atualizações futuras incluído</span>
         </div>
         <div class="price-total">
-          <div class="old">Valor total: €62,97</div>
           <div class="new"><span>€</span>24<span>,99</span></div>
           <div class="note">Pagamento único. Acesso para sempre.</div>
         </div>
